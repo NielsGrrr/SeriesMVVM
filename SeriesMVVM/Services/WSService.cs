@@ -35,22 +35,52 @@ namespace SeriesMVVM.Services
 
         public async Task<Serie?> GetSerieAsync(string nomControleur, int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await client.GetFromJsonAsync<Serie>($"{nomControleur}/{id}");
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public async Task<bool> PostSerieAsync(string nomControleur, Serie serie)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await client.PostAsJsonAsync<Serie>(nomControleur, serie);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public async Task<bool> PutSerieAsync(string nomControleur, int id, Serie serie)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await client.PutAsJsonAsync<Serie>($"{nomControleur}/{id}", serie);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
-
         public async Task<bool> DeleteSerieAsync(string nomControleur, int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await client.DeleteAsync($"{nomControleur}/{id}");
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

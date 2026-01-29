@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SeriesMVVM (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "SeriesMVVM (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

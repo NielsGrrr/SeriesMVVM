@@ -78,7 +78,7 @@ namespace SeriesMVVM.ViewModels
                 }
             }
         }
-        public async Task MessageAsync(string content, string title)
+        protected virtual async Task MessageAsync(string content, string title)
         {
             ContentDialog dialog = new ContentDialog
             {
@@ -90,7 +90,7 @@ namespace SeriesMVVM.ViewModels
             await dialog.ShowAsync();
         }
 
-        private async Task<bool> ConfirmMessageAsync(string content, string title)
+        protected virtual async Task<bool> ConfirmMessageAsync(string content, string title)
         {
             ContentDialog dialog = new ContentDialog
             {

@@ -15,8 +15,8 @@ namespace SeriesMVVM.ViewModels
     {
         public IRelayCommand BtnAddSerie { get; set; }
 
-        private Serie serieToAdd;
-        public List<Serie> Series;
+        private Serie serieToAdd = new Serie();
+        public List<Serie> Series = new List<Serie>();
         public Serie SerieToAdd
         {
             get { return serieToAdd; }
@@ -29,30 +29,41 @@ namespace SeriesMVVM.ViewModels
         public AjouterSerieViewModel()
         {
             GetDataOnLoadAsync();
-            BtnAddSerie = new RelayCommand(ActionAddSerie);
+            BtnAddSerie = new AsyncRelayCommand(ActionAddSerie);
         }
-        public void ActionAddSerie()
+        public async Task ActionAddSerie()
         {
             if (SerieToAdd.Titre == null || SerieToAdd.Titre == "")
             {
-                MessageAsync("Veuillez entrer un titre", "Erreur de création");
+                await MessageAsync("Veuillez entrer un titre", "Erreur de création");
             }
-            else if (SerieToAdd.Nbsaisons == null || SerieToAdd.Nbsaisons < 1)
+            else if (SerieToAdd.Nbsaisons < 1)
             {
-                MessageAsync("Le nombre de saisons doit être supérieur ou égal à 1", "Erreur de création");
+                await MessageAsync("Le nombre de saisons doit être supérieur ou égal à 1", "Erreur de création");
             }
-            else if (SerieToAdd.Nbepisodes == null || SerieToAdd.Nbepisodes < 1)
+            else if (SerieToAdd.Nbepisodes < 1)
             {
-                MessageAsync("Le nombre d'épisodes doit être supérieur ou égal à 1", "Erreur de création");
+                await MessageAsync("Le nombre d'épisodes doit être supérieur ou égal à 1", "Erreur de création");
+            }
+            else if (SerieToAdd.Anneecreation < 1900 || SerieToAdd.Anneecreation > DateTime.Now.Year)
+            {
+                await MessageAsync("L'année de création doit être comprise entre 1900 et l'année en cours", "Erreur de création");
             }
             else
             {
-                
+                bool confirm = await ConfirmMessageAsync("Confirmez-vous l'ajout de cette série ?", "Confirmation d'ajout");
+                if (confirm)
+                {
+                    await new WSService("https://localhost:7141/api/").PostSerieAsync("series", SerieToAdd);
+                    await MessageAsync("Série ajoutée avec succès", "Succès");
+                    SerieToAdd = new Serie();
+                }
+
             }
         }
         public async void GetDataOnLoadAsync()
         {
-            WSService service = new WSService("https://localhost:7192/api/");
+            WSService service = new WSService("https://localhost:7141/api/");
             List<Serie> result = await service.GetSeriesAsync("series");
             if (result == null)
             {
@@ -67,7 +78,7 @@ namespace SeriesMVVM.ViewModels
                 }
             }
         }
-        private async Task MessageAsync(string content, string title)
+        public async Task MessageAsync(string content, string title)
         {
             ContentDialog dialog = new ContentDialog
             {
@@ -77,6 +88,20 @@ namespace SeriesMVVM.ViewModels
                 XamlRoot = App.MainRoot.XamlRoot
             };
             await dialog.ShowAsync();
+        }
+
+        private async Task<bool> ConfirmMessageAsync(string content, string title)
+        {
+            ContentDialog dialog = new ContentDialog
+            {
+                Title = title,
+                Content = content,
+                CloseButtonText = "Annuler",
+                PrimaryButtonText = "Confirmer",
+                XamlRoot = App.MainRoot.XamlRoot
+            };
+            var result = await dialog.ShowAsync();
+            return result == ContentDialogResult.Primary;
         }
     }
 }

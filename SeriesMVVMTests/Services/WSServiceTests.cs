@@ -20,6 +20,8 @@ namespace SeriesMVVM.Services.Tests
         public void InitializeTests()
         {
             service = new WSService("https://localhost:7141/api/");
+
+
         }
 
         [TestMethod()]
@@ -88,6 +90,7 @@ namespace SeriesMVVM.Services.Tests
         [TestMethod]
         public async Task PutSerieAsyncTest()
         {
+            Serie serie = await service.GetSerieAsync("series", 1);
             var serieModifiee = new Serie
             {
                 Serieid = 1,
@@ -101,6 +104,7 @@ namespace SeriesMVVM.Services.Tests
             var result = await service.PutSerieAsync("series", serieModifiee.Serieid, serieModifiee);
             Assert.IsInstanceOfType(result, typeof(bool));
             Assert.IsTrue(result, "La modification de la série a échoué.");
+            await service.PutSerieAsync("series", serie.Serieid, serie);
         }
     }
 }

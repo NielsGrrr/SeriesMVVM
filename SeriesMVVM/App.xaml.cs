@@ -43,6 +43,7 @@ namespace SeriesMVVM
             ServiceCollection services = new ServiceCollection();
 
             services.AddTransient<AjouterSerieViewModel>();
+            services.AddTransient<DelModSerieViewModel>();
 
             Services = services.BuildServiceProvider();
         }
@@ -64,7 +65,7 @@ namespace SeriesMVVM
             // Ensure the current window is active
             _window.Activate();
             // Navigate to the first page
-            rootFrame.Navigate(typeof(AjouterSeriePage));
+            rootFrame.Navigate(typeof(DelModSeriePage));
         }
     }
 }

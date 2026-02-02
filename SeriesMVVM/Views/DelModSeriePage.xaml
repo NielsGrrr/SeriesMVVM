@@ -8,7 +8,102 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
 
-    </Grid>
+        <RelativePanel HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,50">
+
+            <TextBlock x:Name="lblNumSerie"
+                        Text="Numero de serie a afficher" Margin="0,0,0,5"
+                       RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+
+            <NumberBox x:Name="txtNumSerie" Width="100"
+                 RelativePanel.Below="lblNumSerie"
+                 RelativePanel.AlignHorizontalCenterWithPanel="True"
+                 PlaceholderText="Numero"
+                 Value="{Binding SelectedId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <Button x:Name="btnAfficher" Content="Rechercher" Margin="0,10,0,20" Width="200"
+                RelativePanel.Below="txtNumSerie"
+                RelativePanel.AlignHorizontalCenterWithPanel="True"
+                Command="{Binding BtnShowSerie}"/>
+
+            <TextBlock x:Name="lblTitre" Text="Titre" Margin="0,0,0,5"
+                       RelativePanel.Below="btnAfficher"
+                   RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+
+            <TextBox x:Name="txtTitre" Width="400"
+                 RelativePanel.Below="lblTitre"
+                 RelativePanel.AlignHorizontalCenterWithPanel="True"
+                 PlaceholderText="Titre de la série"
+                 Text="{Binding Serie.Titre, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+            <TextBlock x:Name="lblResume" Text="Resume" Margin="0,15,0,5"
+                   RelativePanel.Below="txtTitre"
+                   RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+
+            <TextBox x:Name="txtResume" Width="400" Height="100"
+                 AcceptsReturn="True" TextWrapping="Wrap"
+                 RelativePanel.Below="lblResume"
+                 RelativePanel.AlignHorizontalCenterWithPanel="True"
+                 PlaceholderText="Résumé de la série..."
+                 Text="{Binding Serie.Resume, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+            <TextBlock x:Name="lblSaisons" Text="Nb Saisons" Margin="0,15,0,5"
+                   RelativePanel.Below="txtResume"
+                   RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+
+            <NumberBox x:Name="nbSaisons" Width="200"
+                   SpinButtonPlacementMode="Inline"
+                   RelativePanel.Below="lblSaisons"
+                   RelativePanel.AlignHorizontalCenterWithPanel="True"
+                   Value="{Binding Serie.Nbsaisons, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+            <TextBlock x:Name="lblEpisodes" Text="Nb Episodes" Margin="0,15,0,5"
+                   RelativePanel.Below="nbSaisons"
+                   RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+
+            <NumberBox x:Name="nbEpisodes" Width="200"
+                   SpinButtonPlacementMode="Inline"
+                   RelativePanel.Below="lblEpisodes"
+                   RelativePanel.AlignHorizontalCenterWithPanel="True"
+                   Value="{Binding Serie.Nbepisodes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+            <TextBlock x:Name="lblAnnee" Text="Annee creation" Margin="0,15,0,5"
+                   RelativePanel.Below="nbEpisodes"
+                   RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+
+            <NumberBox x:Name="nbAnnee" Width="200"
+                   SpinButtonPlacementMode="Inline"
+                   RelativePanel.Below="lblAnnee"
+                   RelativePanel.AlignHorizontalCenterWithPanel="True"
+                   Value="{Binding Serie.Anneecreation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+            <TextBlock x:Name="lblChaine" Text="Chaine" Margin="0,15,0,5"
+                   RelativePanel.Below="nbAnnee"
+                   RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+
+            <TextBox x:Name="txtChaine" Width="400"
+                 RelativePanel.Below="lblChaine"
+                 RelativePanel.AlignHorizontalCenterWithPanel="True"
+                 PlaceholderText="Netflix, HBO, etc."
+                 Text="{Binding Serie.Network, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+
+            <Button x:Name="btnModifier" Content="Modifier" Margin="0,30,0,0" Width="200"
+                RelativePanel.Below="txtChaine"
+                RelativePanel.AlignHorizontalCenterWithPanel="True"
+                Command="{Binding BtnModifySerie}"/>
+
+            <Button x:Name="btnSupprimer" Content="Supprimer" Margin="0,15,0,0" Width="200"
+                    RelativePanel.Below="btnModifier"
+                    RelativePanel.AlignHorizontalCenterWithPanel="True"
+                    Command="{Binding BtnDeleteSerie}"/>
+
+        </RelativePanel>
+    </ScrollViewer>
 </Page>
